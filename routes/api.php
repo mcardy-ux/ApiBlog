@@ -14,4 +14,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::apiResource('v1/posts', App\Http\Controllers\Api\v1\PostController::class);
+use App\Http\Controllers\Api\v1\PostController as PostV1;
+use App\Http\Controllers\Api\v2\PostController as PostV2;
+use App\Http\Controllers\Api\LoginController as Login;
+
+Route::apiResource('v1/posts', PostV1::class)->only("show","index")
+->middleware('auth:sanctum');;
+
+Route::apiResource('v2/posts', PostV2::class)
+->middleware('auth:sanctum');
+
+Route::post('login', [Login::class,'login']);
